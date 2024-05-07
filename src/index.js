@@ -1,5 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
+    //const li = ul.querySelector('li')
+    // const li = document.createElement('li')
 
     const div = document.querySelector('#dog-image-container')
     const ul = document.createElement('ul')
@@ -14,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             data.message.forEach(pic => {
                 const img = document.createElement('img')
-                const li = document.createElement('li')
+                li = document.createElement('li')
                 li.innerHTML = `<img src="${pic}" alt="Dog" width="300px">`
 
 
@@ -36,30 +38,50 @@ document.addEventListener('DOMContentLoaded', () => {
             } return res.json()
         })
         .then(data => {
+            const breeds = data.message
+            //console.log(data)
             const ul = document.querySelector('#dog-breeds')
-            for (const breed in data.message) {
-                const li = document.createElement('li')
+            for (const breed in breeds) {
+                //console.log(breeds)
+                li = document.createElement('li')
                 li.textContent = breed
 
                 ul.appendChild(li)
                 li.addEventListener('click', () => {
-                    li.style.color = 'green'
+
+                    if (li.style.color === 'green') {
+                        li.style.color = 'black'
+                    } else {
+                        li.style.color = 'green'
+                    }
                 })
             }
 
-            const select = document.querySelector('#breed-dropdown')
-            //console.log(select)
-            for (const letter of select) {
-                for (const breed in data.message) {
-                    const li = document.createElement('li')
-                    if (breed.startsWith(letter)) {
-
+            const select = document.querySelector('#breed-dropdown');
+            select.addEventListener('change', (e) => {
+                const selectedLetter = e.target.value;
+                const ul = document.querySelector('#dog-breeds')
+                ul.innerHTML = ''
+                for (const breed in breeds) {
+                    //const li = ul.querySelector('li');
+                    if (breed.startsWith(selectedLetter)) {
+                        const li = document.createElement('li')
                         li.textContent = breed
-                    } else {
-                        li.textContent = ''
+                        li.addEventListener('click', () => {
+                            if (li.style.color === 'blue') {
+                                li.style.color = 'purple'
+                            } else {
+                                li.style.color = 'blue'
+                            }
+                        })
+                        ul.appendChild(li)
                     }
                 }
-            }
+            });
+
+
+
+
 
 
 
@@ -67,31 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 })
 
-// document.addEventListener('DOMContentLoaded', () => {
-
-//     const select = document.querySelector('#breed-dropdown')
-//     const breedUrl = "https://dog.ceo/api/breeds/list/all"
-//     const ul = document.querySelector('#dog-breeds')
-
-//     fetch(breedUrl)
-//         .then(res => {
-//             if (!res.ok) {
-//                 throw new Error('Error')
-//             } return res.json()
-//         })
-//         .then(data => {
-//             for (const breed in data.message) {
-//                 const li = document.createElement('li')
-//                 select.addEventListener('change', () => {
-//                     const selected = select.value
-//                     if (breed.startsWith(selected)) {
-//                         li.textContent = breed
-//                     } else { li.textContent = '' }
-//                 })
-//             }
-//         })
-
-// })
 
 
 
